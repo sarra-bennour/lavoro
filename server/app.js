@@ -67,6 +67,7 @@ const server = http.createServer(app);
 
 const allowedOrigins = [
   'https://lavorofront.vercel.app',
+  'https://lavorofront-m96tgvoe7-xyzt123456s-projects.vercel.app',
   'http://localhost:5173'
 ];
 
