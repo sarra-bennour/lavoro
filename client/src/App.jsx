@@ -1,4 +1,4 @@
-import { Routes, BrowserRouter, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, HashRouter, Route, Navigate, useLocation } from "react-router-dom";
 import SignUp from "./user/Signup";
 import SignIn from "./user/Signin";
 import Home from "./Home";
@@ -129,7 +129,7 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId="893053722717-a3eudc815ujr6ne3tf5q3dlrvkbmls6d.apps.googleusercontent.com">
-      <BrowserRouter>
+      <HashRouter>
         <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           {/* Public routes */}
@@ -473,7 +473,7 @@ function App() {
 
 
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </GoogleOAuthProvider>
   );
 }
