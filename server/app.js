@@ -80,7 +80,8 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Ajoutez OPTIONS !
+  allowedHeaders: ['Content-Type', 'Authorization'] // Ajoutez ces headers
 }));
 
 // Socket.io
