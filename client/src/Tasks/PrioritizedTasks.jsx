@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../app.css';
+import '../App.css';
 import { Dropdown } from 'react-bootstrap';
 
 // Données de test pour les tâches (utilisées uniquement si l'API ne renvoie pas de données)
