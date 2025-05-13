@@ -140,7 +140,7 @@ function App() {
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           {/* <Route path="/" element={<Navigate to="/signin" />} /> */}
-          <Route path="*" element={<Navigate to="/signin" replace />} />
+          <Route path="*" element={<Navigate to="/signin" />} />
 
 
           {/* Protected routes with role-based access */}
