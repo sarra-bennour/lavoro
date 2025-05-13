@@ -1,4 +1,4 @@
-import { Routes, BrowserRouter, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, HashRouter, Route, Navigate, useLocation } from "react-router-dom";
 import SignUp from "./user/Signup";
 import SignIn from "./user/Signin";
 import Home from "./Home";
@@ -80,7 +80,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
           return;
         }
 
-        const response = await axios.get('http://localhost:3000/users/me', {
+        const response = await axios.get('https://lavoro-back.onrender.com/users/me', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -129,12 +129,11 @@ function App() {
 
   return (
     <GoogleOAuthProvider clientId="893053722717-a3eudc815ujr6ne3tf5q3dlrvkbmls6d.apps.googleusercontent.com">
-      <BrowserRouter>
+      <HashRouter basename="/">
         <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           {/* Public routes */}
-          {/* <Route path="/" element={<Landing />} /> */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/#/" replace />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -474,7 +473,7 @@ function App() {
 
 
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </GoogleOAuthProvider>
   );
 }
