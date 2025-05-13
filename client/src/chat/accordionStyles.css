@@ -1,0 +1,111 @@
+/* Styles pour les listes déroulantes dans le chat */
+.accordion-item {
+    margin-bottom: 5px;
+}
+
+.accordion-header {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    position: sticky;
+    top: 0;
+    background-color: inherit;
+    z-index: 10;
+}
+
+.accordion-header:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.accordion-body {
+    padding: 0.5rem 0;
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.accordion-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.accordion-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.accordion-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Styles pour le mode clair */
+.accordion-header:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.bg-body {
+    background-color: #ffffff !important;
+}
+
+.accordion-body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour les onglets de chat */
+.chat-groups-tab, .chat-contacts-tab, .chat-users-tab {
+    height: calc(100vh - 200px);
+    overflow: hidden; /* Empêche le défilement au niveau de l'onglet */
+}
+
+/* Conteneurs spécifiques pour les groupes et contacts */
+.chat-groups-container {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 5px;
+}
+
+.accordion-contacts-container {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 5px;
+}
+
+/* Styles pour les barres de défilement */
+.chat-groups-container::-webkit-scrollbar,
+.accordion-contacts-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-groups-container::-webkit-scrollbar-track,
+.accordion-contacts-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-groups-container::-webkit-scrollbar-thumb,
+.accordion-contacts-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+}
+
+.chat-groups-container::-webkit-scrollbar-thumb,
+.accordion-contacts-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour les sections déroulantes à l'intérieur des groupes */
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+/* Désactiver le défilement dans les corps d'accordéon */
+.accordion-body {
+    max-height: none;
+    overflow-y: visible;
+    padding: 0.5rem 0;
+    margin-bottom: 10px;
+}

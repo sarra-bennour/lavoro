@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        .valid { color: green; }
+        .invalid { color: red; }
+        .validation-icon { margin-left: 10px; }
+        .error-message { color: red; font-size: 0.9em; }
+        #password-suggestions li {
+            cursor: pointer;
+            color: blue;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form action="/users/signup" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <!-- First Name -->
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br>
+        <div id="firstName-error" class="error-message"></div>
+
+        <!-- Last Name -->
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br>
+        <div id="lastName-error" class="error-message"></div>
+
+        <!-- Email -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <div id="email-error" class="error-message"></div>
+
+        <!-- Password -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <div id="suggested-passwords">
+            <p>Suggested Passwords:</p>
+            <ul id="password-suggestions">
+                <!-- Suggested passwords will be dynamically added here -->
+            </ul>
+        </div>
+        <div>
+            <p>Password must meet the following requirements:</p>
+            <ul>
+                <li id="length">At least 8 characters long</li>
+                <li id="uppercase">At least one uppercase letter (A-Z)</li>
+                <li id="lowercase">At least one lowercase letter (a-z)</li>
+                <li id="number">At least one number (0-9)</li>
+                <li id="special">At least one special character (!@#$%^&*)</li>
+            </ul>
+        </div>
+
+        
+
+        <!-- Phone Number -->
+        <label for="phone_number">Phone Number:</label>
+        <input type="number" id="phone_number" name="phone_number"><br>
+        <div id="phoneNumber-error" class="error-message"></div>
+
+        <!-- Photo Upload -->
+        <label for="image">Upload Photo:</label>
+        <input type="file" id="image" name="image" accept="image/*"><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Sign Up</button>
+
+        <!-- Link to Sign In Page -->
+        <p>Already have an account? <a href="/users/signin">Sign In</a></p>
+    </form>
+
+    <script>
+        // Function to generate a random password
+        function generateRandomPassword() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+            let password = "";
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        // Function to display suggested passwords
+        function displaySuggestedPasswords() {
+            const passwordSuggestions = document.getElementById('password-suggestions');
+            passwordSuggestions.innerHTML = ''; // Clear previous suggestions
+
+            // Generate 3 random passwords
+            for (let i = 0; i < 3; i++) {
+                const password = generateRandomPassword();
+                const li = document.createElement('li');
+                li.textContent = password;
+                li.style.cursor = 'pointer';
+                li.style.color = 'blue';
+                li.style.marginBottom = '5px';
+
+                // Add click event to populate the password input
+                li.addEventListener('click', () => {
+                    document.getElementById('password').value = password;
+                });
+
+                passwordSuggestions.appendChild(li);
+            }
+        }
+
+        // Display suggested passwords when the page loads
+        window.onload = displaySuggestedPasswords;
+
+        // Function to validate the form
+        function validateForm() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phoneNumber = document.getElementById('phone_number').value;
+
+            // Validate first name
+            const firstNameError = validateFirstName(firstName);
+            document.getElementById('firstName-error').textContent = firstNameError || '';
+
+            // Validate last name
+            const lastNameError = validateLastName(lastName);
+            document.getElementById('lastName-error').textContent = lastNameError || '';
+
+            // Validate phone number
+            const phoneNumberError = validatePhoneNumber(phoneNumber);
+            document.getElementById('phoneNumber-error').textContent = phoneNumberError || '';
+
+            // If any error exists, prevent form submission
+            if (firstNameError || lastNameError || phoneNumberError) {
+                return false;
+            }
+
+            return true; // Allow form submission
+        }
+
+        // Function to validate first name
+        function validateFirstName(firstName) {
+            const nameRegex = /^[A-Za-z\s'-]+$/; // Allows letters, spaces, hyphens, and apostrophes
+
+            if (!firstName) {
+                return 'First name is required.';
+            }
+            if (firstName.length < 3) {
+                return 'First name must be at least 3 characters long.';
+            }
+            if (!nameRegex.test(firstName)) {
+                return 'First name must contain only letters, spaces, hyphens, or apostrophes.';
+            }
+            return null; // No error
+        }
+
+        // Function to validate last name
+        function validateLastName(lastName) {
+            const nameRegex = /^[A-Za-z\s'-]+$/; // Allows letters, spaces, hyphens, and apostrophes
+
+            if (!lastName) {
+                return 'Last name is required.';
+            }
+            if (lastName.length < 3) {
+                return 'Last name must be at least 3 characters long.';
+            }
+            if (!nameRegex.test(lastName)) {
+                return 'Last name must contain only letters, spaces, hyphens, or apostrophes.';
+            }
+            return null; // No error
+        }
+
+        // Function to validate phone number
+        function validatePhoneNumber(phoneNumber) {
+            const minLength = 8; // Minimum length for a valid phone number
+            const numericRegex = /^[0-9]+$/; // Only digits allowed
+
+            if (!phoneNumber) {
+                return 'Phone number is required.';
+            }
+            if (phoneNumber.length < minLength) {
+                return `Phone number must be at least ${minLength} digits long.`;
+            }
+            if (!numericRegex.test(phoneNumber)) {
+                return 'Phone number must contain only numeric characters.';
+            }
+            if (/^0+$/.test(phoneNumber)) {
+                return 'Phone number cannot be all zeros.';
+            }
+            return null; // No error
+        }
+
+        // Real-time validation for first name
+        const firstNameInput = document.getElementById('firstName');
+        firstNameInput.addEventListener('input', () => {
+            const firstName = firstNameInput.value;
+            const firstNameError = validateFirstName(firstName);
+            document.getElementById('firstName-error').textContent = firstNameError || '';
+        });
+
+        // Real-time validation for last name
+        const lastNameInput = document.getElementById('lastName');
+        lastNameInput.addEventListener('input', () => {
+            const lastName = lastNameInput.value;
+            const lastNameError = validateLastName(lastName);
+            document.getElementById('lastName-error').textContent = lastNameError || '';
+        });
+
+        // Real-time validation for phone number
+        const phoneNumberInput = document.getElementById('phone_number');
+        phoneNumberInput.addEventListener('input', () => {
+            const phoneNumber = phoneNumberInput.value;
+            const phoneNumberError = validatePhoneNumber(phoneNumber);
+            document.getElementById('phoneNumber-error').textContent = phoneNumberError || '';
+        });
+
+        // Function to show a popup
+        function showPopup() {
+            alert('Please check your email for a verification link.');
+        }
+
+        // Email validation
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+
+        // Validate email format
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Check if email exists in the database
+        async function checkEmailExists(email) {
+            try {
+                const response = await fetch(`/users/check-email?email=${encodeURIComponent(email)}`);
+                const data = await response.json();
+                return data.exists;
+            } catch (error) {
+                console.error('Error checking email:', error);
+                return false;
+            }
+        }
+
+        // Real-time email validation
+        emailInput.addEventListener('input', async () => {
+            const email = emailInput.value;
+
+            // Validate email format
+            if (!validateEmail(email)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                return;
+            } else {
+                emailError.textContent = '';
+            }
+
+            // Check if email already exists
+            const emailExists = await checkEmailExists(email);
+            if (emailExists) {
+                emailError.textContent = 'This email is already in use.';
+            } else {
+                emailError.textContent = '';
+            }
+        });
+
+        // Password validation (existing code)
+        const passwordInput = document.getElementById('password');
+        const lengthRequirement = document.getElementById('length');
+        const uppercaseRequirement = document.getElementById('uppercase');
+        const lowercaseRequirement = document.getElementById('lowercase');
+        const numberRequirement = document.getElementById('number');
+        const specialRequirement = document.getElementById('special');
+
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+
+            // Validate length
+            if (password.length >= 8) {
+                lengthRequirement.classList.add('valid');
+                lengthRequirement.classList.remove('invalid');
+                lengthRequirement.innerHTML = 'At least 8 characters long <span class="validation-icon">✅</span>';
+            } else {
+                lengthRequirement.classList.add('invalid');
+                lengthRequirement.classList.remove('valid');
+                lengthRequirement.innerHTML = 'At least 8 characters long <span class="validation-icon">❌</span>';
+            }
+
+            // Validate uppercase
+            if (/[A-Z]/.test(password)) {
+                uppercaseRequirement.classList.add('valid');
+                uppercaseRequirement.classList.remove('invalid');
+                uppercaseRequirement.innerHTML = 'At least one uppercase letter (A-Z) <span class="validation-icon">✅</span>';
+            } else {
+                uppercaseRequirement.classList.add('invalid');
+                uppercaseRequirement.classList.remove('valid');
+                uppercaseRequirement.innerHTML = 'At least one uppercase letter (A-Z) <span class="validation-icon">❌</span>';
+            }
+
+            // Validate lowercase
+            if (/[a-z]/.test(password)) {
+                lowercaseRequirement.classList.add('valid');
+                lowercaseRequirement.classList.remove('invalid');
+                lowercaseRequirement.innerHTML = 'At least one lowercase letter (a-z) <span class="validation-icon">✅</span>';
+            } else {
+                lowercaseRequirement.classList.add('invalid');
+                lowercaseRequirement.classList.remove('valid');
+                lowercaseRequirement.innerHTML = 'At least one lowercase letter (a-z) <span class="validation-icon">❌</span>';
+            }
+
+            // Validate number
+            if (/[0-9]/.test(password)) {
+                numberRequirement.classList.add('valid');
+                numberRequirement.classList.remove('invalid');
+                numberRequirement.innerHTML = 'At least one number (0-9) <span class="validation-icon">✅</span>';
+            } else {
+                numberRequirement.classList.add('invalid');
+                numberRequirement.classList.remove('valid');
+                numberRequirement.innerHTML = 'At least one number (0-9) <span class="validation-icon">❌</span>';
+            }
+
+            // Validate special character
+            if (/[!@#$%^&*]/.test(password)) {
+                specialRequirement.classList.add('valid');
+                specialRequirement.classList.remove('invalid');
+                specialRequirement.innerHTML = 'At least one special character (!@#$%^&*) <span class="validation-icon">✅</span>';
+            } else {
+                specialRequirement.classList.add('invalid');
+                specialRequirement.classList.remove('valid');
+                specialRequirement.innerHTML = 'At least one special character (!@#$%^&*) <span class="validation-icon">❌</span>';
+            }
+        });
+    </script>
+</body>
+</html>

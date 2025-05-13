@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        .user-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .user-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .user-info {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+
+    <!-- Display the list of users -->
+    <h2>Users List</h2>
+    <ul>
+        {% for user in users %}
+        <li class="user-card">
+            <img src="{{ user.image }}" alt="Avatar">
+            <div class="user-info">
+                <p>Name: {{ user.firstName }} {{ user.lastName }}</p>
+                <p>Email: {{ user.email }}</p>
+                <p>Role: {{ user.role.RoleName }}</p>
+            </div>
+            <form action="/admin/update-role/{{ user._id }}" method="POST">
+                <select name="role">
+                    {% for role in roles %}
+                    <option value="{{ role._id }}" {% if user.role._id == role._id %}selected{% endif %}>{{ role.RoleName }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Modify Role</button>
+            </form>
+             <a href="/admin/user-activity/{{ user._id }}">
+                <button>View Activity</button>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form action="/users/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

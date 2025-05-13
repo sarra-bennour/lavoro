@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            margin: auto;
+        }
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        input, button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Profile</h1>
+        <form action="/profiles/update" method="post" enctype="multipart/form-data">
+            <img id="profileImage" src="{{ user.image }}" alt="Profile Image" class="profile-image"> <br>
+            
+            <label>First Name:</label>
+            <input type="text" name="firstName" value="{{ user.firstName }}" required>
+            
+            <label>Last Name:</label>
+            <input type="text" name="lastName" value="{{ user.lastName }}" required>
+            
+            <label>Phone Number:</label>
+            <input type="tel" name="phoneNumber" value="{{ user.phone_number }}" required>
+
+            <label>Current Password:</label>
+            <input type="password" name="currentPassword" >
+            
+            <label>New Password:</label>
+            <input type="password" name="newPassword" >
+            
+            <label>Confirm New Password:</label>
+            <input type="password" name="confirmNewPassword" >
+            
+            <button type="button" onclick="chooseUploadMethod()">Choose Profile Image</button>
+            <input type="file" name="image" id="fileInput" class="hidden" accept="image/*" onchange="previewImage(event)">
+            
+            <div id="cameraSection" class="hidden">
+                <video id="video" width="200" height="200" autoplay></video>
+                <canvas id="canvas" class="hidden"></canvas>
+                <button type="button" onclick="capturePhoto()">Capture</button>
+            </div>
+            
+            <input type="hidden" name="capturedImage" id="capturedImageInput">
+            <button type="submit">Update</button>
+        </form>
+        <a href="/profiles/profile">
+            <button type="button">Cancel</button>
+        </a>
+    </div>
+
+    <script>
+        let videoStream = null;
+
+        function chooseUploadMethod() {
+            let choice = confirm("Do you want to take a new photo? Click 'OK' for camera, 'Cancel' to upload.");
+            if (choice) {
+                openCamera();
+            } else {
+                document.getElementById('fileInput').click();
+            }
+        }
+
+        function openCamera() {
+            document.getElementById('cameraSection').classList.remove("hidden");
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoStream = stream;
+                    document.getElementById('video').srcObject = stream;
+                })
+                .catch(err => console.error("Error accessing camera:", err));
+        }
+
+        function capturePhoto() {
+            let video = document.getElementById('video');
+            let canvas = document.getElementById('canvas');
+            let context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            let imageData = canvas.toDataURL("image/png");
+            document.getElementById('profileImage').src = imageData;
+            
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            
+            document.getElementById('cameraSection').classList.add("hidden");
+            document.getElementById('capturedImageInput').value = imageData;
+        }
+
+        function previewImage(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

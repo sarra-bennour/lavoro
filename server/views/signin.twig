@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+</head>
+<body>
+    <h1>Sign In</h1>
+
+    {% if message %}
+    <p style="color: green;">{{ message }}</p>
+    {% endif %}
+
+    <form action="/users/signin" method="POST">
+        <!-- Email -->
+        <label for="email">Email:</label>
+    <input type="email" id="email" name="email" value="{{ email }}" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Sign In</button>
+    </form>
+ </form>
+
+    <!-- Formulaire pour "Mot de passe oublié" -->
+    <form id="forgotPasswordForm" action="/users/request-reset" method="POST">
+        <input type="hidden" name="email" id="hiddenEmail">
+        <button type="button" onclick="sendForgotPassword()">Forgot Password?</button>
+    </form>
+
+    <!-- Link to Signup Page -->
+    <p>Don't have an account? <a href="/users/signup">Sign Up</a></p>
+</body>
+</html>

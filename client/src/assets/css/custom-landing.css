@@ -1,0 +1,143 @@
+/* Custom Landing Page Styles */
+
+/* Main banner section with purple background */
+.landing-banner {
+  background-color: #6366f1; /* Purple background color */
+  background-image: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); /* Purple gradient */
+  color: #fff;
+  padding: 80px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add some decorative elements */
+.landing-banner:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  transform: translate(150px, -150px);
+}
+
+.landing-banner:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  transform: translate(-100px, 100px);
+}
+
+/* Text styling */
+.landing-banner-heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+/* Image container */
+.landing-main-image {
+  position: relative;
+  z-index: 2;
+}
+
+/* Button styling */
+.bg-white-transparent {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.bg-white-transparent:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Features section styling */
+.landing-Features {
+  background-color: #6366f1;
+  background-image: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #fff;
+  padding: 80px 0;
+}
+
+/* Section styling */
+.section {
+  padding: 80px 0;
+}
+
+.section-bg {
+  background-color: #f8f9fa;
+}
+
+/* Card styling */
+.landing-card {
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.landing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Team member card styling */
+.team-member {
+  position: relative;
+  overflow: hidden;
+}
+
+.team-bg-shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 0;
+}
+
+.team-bg-shape.primary {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.team-bg-shape.teal {
+  background-color: rgba(20, 184, 166, 0.1);
+}
+
+.team-bg-shape.success {
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.team-bg-shape.orange {
+  background-color: rgba(249, 115, 22, 0.1);
+}
+
+/* Pricing section styling */
+.pricing-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.pricing-table-item-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}

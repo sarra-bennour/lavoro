@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Activity Log</title>
+    <style>
+        .log-card {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .log-info {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Activity Log</h1>
+
+    <h2>Activity Logs</h2>
+    <ul>
+        {% if activityLogs is iterable %}
+            {% for log in activityLogs %}
+            <li class="log-card">
+                <div class="log-info">
+                    <p>User: {{ log.userId.firstName }} {{ log.userId.lastName }}</p>
+                    <p>Email: {{ log.userId.email }}</p>
+                    <p>Action: {{ log.action }}</p>
+                    <p>Timestamp: {{ log.timestamp | date("Y-m-d H:i:s") }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            <p>No activity logs found.</p>
+        {% endif %}
+    </ul>
+
+    <a href="/admin/dashboard">
+        <button>Back to Dashboard</button>
+    </a>
+</body>
+</html>

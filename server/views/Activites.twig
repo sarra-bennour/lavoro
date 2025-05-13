@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Tasks</h1>
+    <table id="tasksTable" border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les tâches seront insérées ici -->
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            const userId = "67bc483610f120a6f51e3eb2"; // Remplacez par l'ID de l'utilisateur connecté
+
+            $.ajax({
+                url: `/tasks/${userId}`,
+                method: 'GET',
+                success: function(tasks) {
+                    const tbody = $('#tasksTable tbody');
+                    tasks.forEach(task => {
+                        const row = `<tr>
+                            <td>${task.title}</td>
+                            <td>${task.description}</td>
+                            <td>${task.status}</td>
+                            <td>${task.priority}</td>
+                            <td>${new Date(task.deadline).toLocaleDateString()}</td>
+                        </tr>`;
+                        tbody.append(row);
+                    });
+                },
+                error: function(err) {
+                    console.error('Error fetching tasks:', err);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

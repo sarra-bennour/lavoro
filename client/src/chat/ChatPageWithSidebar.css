@@ -1,0 +1,113 @@
+/* Styles pour la page de messagerie avec sidebar */
+
+/* Styles pour le conteneur principal */
+.chat-page {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+.chat-page .container-fluid {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    height: calc(100vh - 60px) !important; /* Hauteur totale moins la hauteur du header */
+    overflow: hidden !important;
+}
+
+/* Styles pour le composant ChatComponent */
+.chat-page .chat-fullpage-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Styles pour le header de la page */
+.chat-page .page-header-breadcrumb {
+    padding: 15px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Styles pour le wrapper principal */
+.chat-page .main-chart-wrapper {
+    margin: 0 auto !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    height: calc(100vh - 180px) !important;
+    max-width: 1200px !important;
+}
+
+/* Styles pour la sidebar du chat */
+.chat-page .chat-info {
+    width: 300px !important;
+    border-radius: 0 !important;
+    border-right: 1px solid var(--bs-border-color) !important;
+    height: 100% !important;
+}
+
+/* Styles pour la fenêtre de chat */
+.chat-page .chat-window {
+    flex: 1 !important;
+    border-radius: 0 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Styles pour le contenu du chat */
+.chat-page .chat-content,
+.chat-page #main-chat-content {
+    flex: 1 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+}
+
+/* Styles pour la zone de saisie de message */
+.chat-page .chat-message-input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-shrink: 0 !important;
+}
+
+/* Styles pour les onglets */
+.chat-page .chat-users-tab,
+.chat-page .chat-groups-tab,
+.chat-page .chat-contacts-tab {
+    height: calc(100vh - 280px) !important;
+}
+
+/* Styles pour le placeholder */
+.chat-page .chat-window-placeholder {
+    height: 100% !important;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .chat-page .main-chart-wrapper {
+        flex-direction: column !important;
+    }
+
+    .chat-page .chat-info {
+        width: 100% !important;
+        height: 400px !important;
+    }
+
+    .chat-page .chat-window,
+    .chat-page .chat-window-placeholder {
+        height: calc(100vh - 580px) !important;
+    }
+
+    .chat-page .chat-content,
+    .chat-page #main-chat-content {
+        flex: 1 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    .chat-page .chat-message-input-container {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}

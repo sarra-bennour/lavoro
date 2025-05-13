@@ -1,0 +1,88 @@
+/* Styles spécifiques pour corriger la largeur de la zone de saisie de message */
+
+/* Styles pour le conteneur principal */
+.chat-window {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Styles pour la zone de contenu */
+.chat-content {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    min-height: 0 !important;
+}
+
+/* Styles pour la zone de saisie de message */
+.chat-message-input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    padding: 15px !important;
+    border-top: 1px solid var(--bs-border-color) !important;
+}
+
+/* Styles pour le formulaire de message */
+.chat-message-form {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* Styles pour l'input de message */
+.chat-message-space {
+    flex: 1 1 auto !important;
+    min-width: 300px !important;
+    width: 100% !important;
+}
+
+/* Styles pour les boutons */
+.chat-message-button {
+    flex-shrink: 0 !important;
+}
+
+/* Styles pour la prévisualisation des pièces jointes */
+.attachment-preview {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Styles pour la page de chat complète */
+.chat-page .chat-window {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+.chat-page .chat-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+}
+
+.chat-page .chat-message-input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Styles pour le popup de chat */
+[style*="chatPopupMainStyle"] .chat-window {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+
+[style*="chatPopupMainStyle"] .chat-content {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+}
+
+[style*="chatPopupMainStyle"] .chat-message-input-container {
+    width: 100% !important;
+    max-width: 100% !important;
+}

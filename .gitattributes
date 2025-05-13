@@ -1,0 +1,9 @@
+# Auto normalize text files to use LF
+* text=auto
+
+# For CSVs or specific files
+*.csv text eol=lf
+*.sh text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf

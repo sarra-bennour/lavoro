@@ -1,0 +1,32 @@
+pipeline {
+    agent any // Exécute le pipeline sur n'importe quel agent disponible
+
+    stages {
+        // Étape 1 : Installation des dépendances
+        stage('Install dependencies') {
+            steps {
+                script {
+                    sh 'npm install' // Exécute la commande npm install
+                }
+            }
+        }
+
+        // Étape 2 : Exécution des tests unitaires
+        stage('Unit Test') {
+            steps {
+                script {
+                    sh 'npm test' // Exécute la commande npm test
+                }
+            }
+        }
+
+        // Étape 3 : Construction de l'application
+        stage('Build application') {
+            steps {
+                script {
+                    sh 'npm run build-dev' // Exécute la commande npm run build-dev
+                }
+            }
+        }
+    }
+}

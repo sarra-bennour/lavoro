@@ -1,0 +1,59 @@
+/* Styles for the task status timeline */
+.task-status-timeline {
+  padding: 20px 10px;
+}
+
+.status-point {
+  width: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Make the progress bar appear behind the status points */
+.task-status-timeline .progress {
+  background-color: #e9ecef;
+}
+
+/* Style for the progress bar */
+.progress-stacked .progress-bar {
+  transition: width 1s ease;
+}
+
+/* Style for the status badge */
+.badge.bg-warning-transparent {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.badge.bg-info-transparent {
+  background-color: rgba(13, 202, 240, 0.15);
+  color: #0dcaf0;
+}
+
+.badge.bg-success-transparent {
+  background-color: rgba(25, 135, 84, 0.15);
+  color: #198754;
+}
+
+.badge.bg-secondary-transparent {
+  background-color: rgba(108, 117, 125, 0.15);
+  color: #6c757d;
+}
+
+/* Card styles */
+.card.bg-light-transparent {
+  background-color: rgba(248, 249, 250, 0.5);
+}
+
+/* Avatar styles */
+.avatar.avatar-xs {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fs-10 {
+  font-size: 10px;
+}

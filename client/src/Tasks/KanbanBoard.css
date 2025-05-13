@@ -1,0 +1,90 @@
+/* KanbanBoard.css */
+
+.TASK-kanban-board {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 20px 0;
+  gap: 20px;
+}
+
+.kanban-tasks-type {
+  min-width: 300px;
+  max-width: 350px;
+  flex: 1;
+}
+
+.kanban-tasks {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+.kanban-tasks::-webkit-scrollbar {
+  width: 6px;
+}
+
+.kanban-tasks::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.kanban-tasks::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.kanban-tasks::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+.kanban-task-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  font-size: 0.85rem;
+}
+
+.badge-task {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .TASK-kanban-board {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kanban-tasks-type {
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+/* Subtle hover effect for cards */
+.card {
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+}
+
+/* Ensure the board has enough height */
+.kanban-tasks {
+  min-height: 200px;
+  max-height: 600px;
+}
+
+/* Make sure the board is visible on all screen sizes */
+@media (min-width: 1200px) {
+  .TASK-kanban-board {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
