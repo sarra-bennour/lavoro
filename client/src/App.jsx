@@ -133,7 +133,7 @@ function App() {
         <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
         <Routes>
           {/* Public routes */}
-          <Route path="*" element={<Navigate to="/#/" replace />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
