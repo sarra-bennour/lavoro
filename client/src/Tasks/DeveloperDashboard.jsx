@@ -5,7 +5,7 @@ import UpcomingDeadlines from './UpcomingDeadlines';
 import Swal from 'sweetalert2';
 import TaskTimeline from './TaskTimeline';
 import TaskStats from './TaskStats';
-import SkillsPolarChart from './Skillschart';
+import SkillsPolarChart from './SkillsChart';
 import DeveloperProjects from './DeveloperProjects';
 
 
