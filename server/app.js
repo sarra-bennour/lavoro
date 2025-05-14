@@ -159,7 +159,7 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
       sameSite: 'none', // Critical for cross-origin
-      domain: '.onrender.com' // Important pour les sous-domaines
+      domain: 'lavoro-back.onrender.com' // Important pour les sous-domaines
     }
   })
 );
