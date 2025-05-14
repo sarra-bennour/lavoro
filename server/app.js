@@ -70,6 +70,7 @@ const cors = require('cors');
 const allowedOrigins = [
   'https://lavorofront.vercel.app',
   'https://lavorofront-m96tgvoe7-xyzt123456s-projects.vercel.app',
+  'https://lavoro-back.onrender.com',
   'http://localhost:5173'
 ];
 
