@@ -75,43 +75,46 @@ const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
     
-    const originAllowed = allowedOrigins.some(allowedOrigin => 
-      origin === allowedOrigin || 
-      new RegExp(allowedOrigin.replace('*', '.*')).test(origin)
-    );
+    const originIsAllowed = allowedOrigins.some(allowedOrigin => {
+      const regex = new RegExp(allowedOrigin.replace('*', '.*'));
+      return regex.test(origin);
+    });
     
-    if (originAllowed) {
+    if (originIsAllowed) {
       callback(null, true);
     } else {
-      console.log('CORS blocked for origin:', origin);
+      console.error(`CORS blocked for origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['set-cookie']
 };
+
 
 app.use(cors(corsOptions));
 
 // Important: Handle preflight requests
 app.options('*', cors(corsOptions));
 
-// Additional headers middleware
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (origin && allowedOrigins.some(o => origin.includes(o.replace('*', '')))) {
+  if (origin && allowedOrigins.some(o => new RegExp(o.replace('*', '.*')).test(origin))) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Expose-Headers', 'set-cookie');
   
   if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     return res.status(200).end();
   }
   next();
 });
+
 const io = socketIo(server, {
   cors: {
     origin: allowedOrigins,
@@ -144,19 +147,20 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Session configuration
 app.use(
   session({
-    secret: process.env.SESSION_SECRET, // Use a secure secret key
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: db.url, // MongoDB connection URL
-      ttl: 24 * 60 * 60, // Session TTL (1 day)
+      mongoUrl: db.url,
+      ttl: 24 * 60 * 60,
     }),
     cookie: {
-      secure: false, // Set to true if using HTTPS
-      httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'lax', // Prevent CSRF attacks
-    },
+      secure: true, // MUST be true in production
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: 'none', // Critical for cross-origin
+      domain: '.onrender.com' // Important pour les sous-domaines
+    }
   })
 );
 

@@ -62,10 +62,19 @@ function SignIn() {
         e.preventDefault()
     
         try {
-          const response = await axios.post("https://lavoro-back.onrender.com/users/signin", formData, {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          })
+          const response = await axios.post(
+  "https://lavoro-back.onrender.com/users/signin", 
+  formData, 
+  {
+    headers: { 
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    withCredentials: true,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN'
+  }
+);
     
           if (response.data.requires2FA) {
             setRequires2FA(true)
