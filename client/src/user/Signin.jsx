@@ -84,10 +84,37 @@ function SignIn() {
             localStorage.setItem("token", response.data.token) // Store token in localStorage
     
             // Fetch user info to check role
-            const userResponse = await axios.get("https://lavoro-back.onrender.com/users/me", {
-              headers: { Authorization: `Bearer ${response.data.token}` },
-              withCredentials: true,
-            })
+            // Dans votre route users.js
+router.get('/me', async (req, res) => {
+  try {
+    // Vérifiez d'abord la session
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Unauthorized - No session' });
+    }
+
+    // Ensuite vérifiez le token si nécessaire
+    const token = req.headers.authorization?.split(' ')[1];
+    if (token) {
+      try {
+        jwt.verify(token, process.env.JWT_SECRET);
+      } catch (err) {
+        return res.status(401).json({ error: 'Invalid token' });
+      }
+    }
+
+    const user = await User.findById(req.session.userId)
+      .populate('role')
+      .select('-password_hash');
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
     
             // Show success alert
             setAlertMessage("✅ Sign-in successful!")
