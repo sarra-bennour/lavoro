@@ -36,6 +36,8 @@ function SignIn() {
                     const response = await axios.get('https://lavoro-back.onrender.com/users/me', {
                         headers: { Authorization: `Bearer ${token}` },
                         withCredentials: true,
+                        xsrfCookieName: 'XSRF-TOKEN',
+                        xsrfHeaderName: 'X-XSRF-TOKEN'
                     });
                     if (response.data) {
                         // Redirect to home or admin dashboard based on role
@@ -133,6 +135,8 @@ function SignIn() {
             const userResponse = await axios.get("https://lavoro-back.onrender.com/users/me", {
               headers: { Authorization: `Bearer ${response.data.token}` },
               withCredentials: true,
+              xsrfCookieName: 'XSRF-TOKEN',
+              xsrfHeaderName: 'X-XSRF-TOKEN'
             })
     
             // Show success alert
