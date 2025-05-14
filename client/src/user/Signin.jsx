@@ -30,7 +30,6 @@ function SignIn() {
         width: "100%",
         textAlign: "center",
       }
-    import { useLocation } from 'react-router-dom';
 
 useEffect(() => {
     const checkAuthentication = async () => {
