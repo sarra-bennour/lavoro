@@ -32,6 +32,7 @@ function SignIn() {
         const checkAuthentication = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) return;
                 if (token) {
                     const response = await axios.get('https://lavoro-back.onrender.com/users/me', {
                         headers: { Authorization: `Bearer ${token}` },
