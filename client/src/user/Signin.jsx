@@ -50,6 +50,7 @@ function SignIn() {
                 }
             } catch (err) {
                 console.error('Error checking authentication:', err);
+                localStorage.removeItem("token");
             }
         };
 
