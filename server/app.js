@@ -64,20 +64,22 @@ const server = http.createServer(app);
 //     credentials: true
 //   }
 // });
-
-const cors = require('cors');
-
 const allowedOrigins = [
   'https://lavorofront.vercel.app',
-  'https://lavorofront-m96tgvoe7-xyzt123456s-projects.vercel.app',
-  'https://lavoro-back.onrender.com',
+  'https://lavorofront-*.vercel.app', // Permet tous les sous-domaines Vercel
+  'https://lavorofront-o8gcdjn7g-xyzt123456s-projects.vercel.app', // Votre URL actuelle
   'http://localhost:5173'
 ];
 
-
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Permettre les requêtes sans origine (comme Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowedOrigin => 
+      origin === allowedOrigin || 
+      origin.includes(allowedOrigin.replace('*', ''))
+    ) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -90,18 +92,24 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Handle preflight requests
+// Gestion spécifique des requêtes OPTIONS (preflight)
 app.options('*', cors(corsOptions));
 
-
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Répondre immédiatement aux requêtes OPTIONS
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
   next();
-});
-// Socket.io
+});// Socket.io
 const io = socketIo(server, {
   cors: {
     origin: allowedOrigins,
