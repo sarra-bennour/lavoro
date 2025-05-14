@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom"
 import GoogleLogin from "./GoogleLogin"
 import GitHubLogin from "./GitHubLogin"
 import MicrosoftLogin from "./MicrosoftLogin"
+import { useLocation } from 'react-router-dom';
+
 
 function SignIn() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -28,36 +30,39 @@ function SignIn() {
         width: "100%",
         textAlign: "center",
       }
-    useEffect(() => {
-        const checkAuthentication = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) return;
-                if (token) {
-                    const response = await axios.get('https://lavoro-back.onrender.com/users/me', {
-                        headers: { Authorization: `Bearer ${token}` },
-                        withCredentials: true,
-                        xsrfCookieName: 'XSRF-TOKEN',
-                        xsrfHeaderName: 'X-XSRF-TOKEN'
-                    });
-                    if (response.data) {
-                        // Redirect to home or admin dashboard based on role
-                        if (response.data.role && response.data.role.RoleName === 'Admin') {
-                            navigate('/admin-dashboard');
-                        } else {
-                            navigate('/profile');
-                        }
-                    }
+    import { useLocation } from 'react-router-dom';
+
+useEffect(() => {
+    const checkAuthentication = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+
+            const response = await axios.get('https://lavoro-back.onrender.com/users/me', {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true,
+                xsrfCookieName: 'XSRF-TOKEN',
+                xsrfHeaderName: 'X-XSRF-TOKEN'
+            });
+
+            if (response.data) {
+                if (response.data.role?.RoleName === 'Admin') {
+                    navigate('/admin-dashboard');
+                } else {
+                    navigate('/profile');
                 }
-            } catch (err) {
-                console.error('Error checking authentication:', err);
-                localStorage.removeItem("token");
             }
-        };
+        } catch (err) {
+            console.error('Error checking authentication:', err);
+            localStorage.removeItem("token");
+        }
+    };
 
+    if (location.pathname === '/signin') {
         checkAuthentication();
-    }, [navigate]);
-
+    }
+}, [navigate, location.pathname]);
+ a
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
