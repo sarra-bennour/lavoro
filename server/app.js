@@ -66,22 +66,24 @@ const server = http.createServer(app);
 // });
 const allowedOrigins = [
   'https://lavorofront.vercel.app',
-  'https://lavorofront-*.vercel.app', // Permet tous les sous-domaines Vercel
-  'https://lavorofront-o8gcdjn7g-xyzt123456s-projects.vercel.app', // Votre URL actuelle
+  'https://lavorofront-*.vercel.app',
+  'https://lavorofront-tnfi2srb0-xyzt123456s-projects.vercel.app',
   'http://localhost:5173'
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Permettre les requêtes sans origine (comme Postman)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.some(allowedOrigin => 
+    const originAllowed = allowedOrigins.some(allowedOrigin => 
       origin === allowedOrigin || 
-      origin.includes(allowedOrigin.replace('*', ''))
-    ) {
+      new RegExp(allowedOrigin.replace('*', '.*')).test(origin)
+    );
+    
+    if (originAllowed) {
       callback(null, true);
     } else {
+      console.log('CORS blocked for origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -92,24 +94,24 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Gestion spécifique des requêtes OPTIONS (preflight)
+// Important: Handle preflight requests
 app.options('*', cors(corsOptions));
 
+// Additional headers middleware
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
+  if (origin && allowedOrigins.some(o => origin.includes(o.replace('*', '')))) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
-  // Répondre immédiatement aux requêtes OPTIONS
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
+    return res.status(200).end();
   }
   next();
-});// Socket.io
+});
 const io = socketIo(server, {
   cors: {
     origin: allowedOrigins,
